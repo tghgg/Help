@@ -111,7 +111,21 @@ double *giaiDaThuc(unsigned int *size, double heso[])
     return nghiem;
 }
 
-double *congDaThuc() {
+double *nhapDaThuc(unsigned int *bac)
+{
+    double *heso = new double[*bac + 1];
+
+    for (unsigned int i = 0; i <= *bac; i++)
+    {
+        cout << "Nhap he so bac " << *bac - i << ": ";
+        cin >> heso[i];
+    }
+
+    return heso;
+}
+
+double *congDaThuc()
+{
     unsigned int *size1 = new unsigned int;
     cout << "Nhap so bac cua da thuc 1: ";
     cin >> *size1;
@@ -126,17 +140,20 @@ double *congDaThuc() {
 
     double *daThuc2 = nhapDaThuc(size2);
 
-
-    if (*size1 > *size2) {
-
+    if (*size1 > *size2)
+    {
         double *daThucTong = new double[*size1];
 
         cout << "Da thuc tong la: ";
 
-        for (unsigned int i = 0; i <= *size1; i++) {
-            if (i < *size2) {
+        for (int i = *size1; i >= 0; i--)
+        {
+            if (i < *size2)
+            {
                 daThucTong[i] = daThuc1[i] + daThuc2[i];
-            } else {
+            }
+            else
+            {
                 daThucTong[i] = daThuc1[i];
             }
 
@@ -144,15 +161,21 @@ double *congDaThuc() {
         }
 
         return daThucTong;
-    } else {
+    }
+    else
+    {
         double *daThucTong = new double[*size2];
 
         cout << "Da thuc tong la: ";
 
-        for (unsigned int i = 0; i <= *size2; i++) {
-            if (i < *size1) {
+        for (unsigned int i = 0; i <= *size2; i++)
+        {
+            if (i < *size1)
+            {
                 daThucTong[i] = daThuc1[i] + daThuc2[i];
-            } else {
+            }
+            else
+            {
                 daThucTong[i] = daThuc2[i];
             }
 
@@ -163,53 +186,111 @@ double *congDaThuc() {
     }
 }
 
-double *nhapDaThuc(unsigned int *bac)
-{
-    double *heso = new double[*bac + 1];
-
-    for (unsigned int i = 0; i <= *bac; i++)
-    {
-        cout << "Nhap he so bac " << *bac - i << ": ";
-        cin >> heso[i];
-    }
-
-    return heso;
-}
-
 int main()
 {
-    unsigned int *size = new unsigned int;
+    unsigned int hanhDong;
 
-    cout << "Nhap so bac cua phuong trinh: ";
-    cin >> *size;
-    cout << endl;
-
-    if (*size > 4) {
-        cout << "Phuong trinh co bac lon hon 4. Khong hop le.\n";
-        return 0;
-    }
-
-    double *heso = nhapDaThuc(size);
-
-    const double *nghiem = giaiDaThuc(size, heso);
-
-    // Xuat nghiem
-    if (nghiem == nullptr)
-        cout << "Phuong trinh vo nghiem";
-    else
+    // Menu
+    do
     {
-        for (unsigned int i = 0; i < *size; i++)
+        cout << "Chon hanh dong de chuong trinh thuc hien:\n";
+        cout << "0. Huy chuong trinh\n";
+        cout << "1. Nhap da thuc\n";
+        cout << "2. Giai da thuc\n";
+        cout << "3. Cong 2 da thuc\n";
+
+        cin >> hanhDong;
+
+        switch (hanhDong)
         {
-            cout << "x" << i + 1 << " = " << nghiem[i] << endl;
+        case 0:
+            break;
+        case 1:
+        {
+            unsigned int *size = new unsigned int;
+
+            cout << "Nhap so bac cua phuong trinh: ";
+            cin >> *size;
+            cout << endl;
+
+            if (*size > 4)
+            {
+                cout << "Phuong trinh co bac lon hon 4. Khong hop le.\n";
+                return 0;
+            }
+
+            double *heso = nhapDaThuc(size);
+
+            // Xuat da thuc
+            cout << "Da thuc vua nhap: ";
+            for (unsigned int i = 0; i <= *size; i++)
+                cout << heso[i] << " ";
+            cout << endl;
+
+            delete size;
+            delete heso;
+            size = nullptr;
+            heso = nullptr;
+            break;
         }
-    }
+        case 2:
+        {
+            unsigned int *size = new unsigned int;
 
-    delete[] heso;
-    delete nghiem;
-    delete size;
-    size = nullptr;
-    nghiem = nullptr;
-    heso = nullptr;
+            cout << "Nhap so bac cua phuong trinh: ";
+            cin >> *size;
+            cout << endl;
 
+            if (*size > 4)
+            {
+                cout << "Phuong trinh co bac lon hon 4. Khong hop le.\n";
+                return 0;
+            }
+
+            double *heso = nhapDaThuc(size);
+
+            // Xuat da thuc
+            cout << "Da thuc duoc nhap la: ";
+            for (unsigned int i = 0; i <= *size; i++)
+                cout << heso[i] << " ";
+            cout << endl;
+
+            const double *nghiem = giaiDaThuc(size, heso);
+
+            // Xuat nghiem
+            if (nghiem == nullptr)
+                cout << "Phuong trinh vo nghiem";
+            else
+            {
+                for (unsigned int i = 0; i < *size; i++)
+                {
+                    cout << "x" << i + 1 << " = " << nghiem[i] << endl;
+                }
+            }
+
+            delete size;
+            delete heso;
+            delete nghiem;
+            size = nullptr;
+            heso = nullptr;
+            nghiem = nullptr;
+            break;
+        }
+        case 3:
+        {
+            congDaThuc();
+            break;
+        }
+
+        default:
+            cout << "Hanh dong khong hop le. Xin hay chon lai.\n";
+            break;
+        }
+        cout << "KET THUC HANH DONG\n";
+    } while (hanhDong != 0);
+
+    cout << "KET THUC CHUONG TRINH\n";
+
+    // system("pause");
     return 0;
 }
