@@ -18,23 +18,20 @@ double * giaiDaThuc(int bac, double heso[])
         case 2:
         {
             if (heso[0] == 0)
-                cout << "He so a = 0\nPhuong trinh khong hop le.\n";
-            break;
+                cout << "He so a = 0\nPhuong trinh khong hop le.\n"; break;
             double delta = pow(heso[1], 2.0) - 4 * heso[0] * heso[2];
             if (delta < 0.0)
             {
-                cout << "Phuong trinh vo nghiem\n";
+                nghiem = nullptr;
                 break;
             }
             else if (delta == 0.0)
             {
-                cout << "Phuong trinh co nghiem kep\n";
 
                 break;
             }
             else
             {
-                cout << "Phuong trinh co 2 nghiem phan biet\n";
                 break;
             }
         }
@@ -64,11 +61,19 @@ int main()
     const double *nghiem = giaiDaThuc(bac, heso);
 
     // Xuat nghiem
-    for (unsigned int i = 0; i < bac; i++) {
-        cout << "x" << i+1 << " = " << nghiem[i] << endl;
+
+    if (nghiem == nullptr)
+        cout << "Phuong trinh vo nghiem";
+    else
+    {
+        for (unsigned int i = 0; i < bac; i++) {
+            cout << "x" << i+1 << " = " << nghiem[i] << endl;
+        }
     }
 
     delete [] heso;
+    delete nghiem;
+    nghiem = nullptr;
     heso = nullptr;
 
     return 0;
