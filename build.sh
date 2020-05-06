@@ -2,7 +2,7 @@
 
 echo "Build the damn thing"
 
-g++ hmm3.cpp
+g++ nibbawut.cpp
 
 echo "Run the damn thing"
 ./a.out
