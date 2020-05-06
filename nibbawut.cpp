@@ -7,8 +7,6 @@ double *giaiDaThuc(unsigned int *size, double heso[])
 {
     double *nghiem;
 
-    // cout << "He so la " << heso << endl;
-
     switch (*size)
     {
     case 0:
@@ -113,6 +111,58 @@ double *giaiDaThuc(unsigned int *size, double heso[])
     return nghiem;
 }
 
+double *congDaThuc() {
+    unsigned int *size1 = new unsigned int;
+    cout << "Nhap so bac cua da thuc 1: ";
+    cin >> *size1;
+    cout << endl;
+
+    double *daThuc1 = nhapDaThuc(size1);
+
+    unsigned int *size2 = new unsigned int;
+    cout << "Nhap so bac cua da thuc 2: ";
+    cin >> *size2;
+    cout << endl;
+
+    double *daThuc2 = nhapDaThuc(size2);
+
+
+    if (*size1 > *size2) {
+
+        double *daThucTong = new double[*size1];
+
+        cout << "Da thuc tong la: ";
+
+        for (unsigned int i = 0; i <= *size1; i++) {
+            if (i < *size2) {
+                daThucTong[i] = daThuc1[i] + daThuc2[i];
+            } else {
+                daThucTong[i] = daThuc1[i];
+            }
+
+            cout << daThucTong[i] << " ";
+        }
+
+        return daThucTong;
+    } else {
+        double *daThucTong = new double[*size2];
+
+        cout << "Da thuc tong la: ";
+
+        for (unsigned int i = 0; i <= *size2; i++) {
+            if (i < *size1) {
+                daThucTong[i] = daThuc1[i] + daThuc2[i];
+            } else {
+                daThucTong[i] = daThuc2[i];
+            }
+
+            cout << daThucTong[i] << " ";
+        }
+
+        return daThucTong;
+    }
+}
+
 double *nhapDaThuc(unsigned int *bac)
 {
     double *heso = new double[*bac + 1];
@@ -156,6 +206,8 @@ int main()
 
     delete[] heso;
     delete nghiem;
+    delete size;
+    size = nullptr;
     nghiem = nullptr;
     heso = nullptr;
 
