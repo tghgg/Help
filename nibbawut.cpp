@@ -1,33 +1,74 @@
 #include <iostream>
+#include <cmath>
 using namespace std;
 
-int main() {
-    int n;
+double * giaiDaThuc(int bac, double heso[])
+{
+    double *nghiem = new double[bac];
 
-    cout << "Phuong trinh bac may!?!??!\n";
-    cin >> n;
-    
-    double *heso = new double[n];
+    // cout << "He so la " << heso << endl;
 
-    // Nhap cac he so
-    for (unsigned int i = 0; i <= n; i++) {
-        cout << "Nhap he so bac " << n-i << "!!?!?!: ";
-        cin >> heso[i];
-    }
-
-    // Giai phuong trinh
-    switch (n) {
+    switch (bac)
+    {
         case 1:
+        {
+            nghiem[0] = (-heso[bac]) / heso[0];
+            break;
+        }
+        case 2:
+        {
+            if (heso[0] == 0)
+                cout << "He so a = 0\nPhuong trinh khong hop le.\n";
+            break;
+            double delta = pow(heso[1], 2.0) - 4 * heso[0] * heso[2];
+            if (delta < 0.0)
             {
-                double nghiem = (-heso[n])/heso[0];
-                cout << "x = " << nghiem << endl;
+                cout << "Phuong trinh vo nghiem\n";
                 break;
             }
-        default :
+            else if (delta == 0.0)
+            {
+                cout << "Phuong trinh co nghiem kep\n";
+
+                break;
+            }
+            else
+            {
+                cout << "Phuong trinh co 2 nghiem phan biet\n";
+                break;
+            }
+        }
+        default:
             cout << "Phuong trinh khong hop le\n";
     }
 
-    delete heso;
+    return nghiem;
+}
+
+int main()
+{
+    int bac;
+
+    cout << "Phuong trinh bac may!?!??!\n";
+    cin >> bac;
+
+    double *heso = new double[bac+1];
+
+    // Nhap he so
+    for (unsigned int i = 0; i <= bac; i++)
+    {
+        cout << "Nhap he so bac " << bac - i << "!!?!?!: ";
+        cin >> heso[i];
+    }
+
+    const double *nghiem = giaiDaThuc(bac, heso);
+
+    // Xuat nghiem
+    for (unsigned int i = 0; i < bac; i++) {
+        cout << "x" << i+1 << " = " << nghiem[i] << endl;
+    }
+
+    delete [] heso;
     heso = nullptr;
 
     return 0;
