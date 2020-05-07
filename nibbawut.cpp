@@ -36,7 +36,7 @@ double * giaiDaThuc(unsigned int *size, double heso[])
         const double b = heso[1];
         const double c = heso[2];
 
-        double delta = pow(b, 2.0) - 4 * a * c;
+        const double delta = pow(b, 2.0) - 4 * a * c;
 
         if (delta < 0.0)
         {
@@ -55,9 +55,8 @@ double * giaiDaThuc(unsigned int *size, double heso[])
         {
             cout << "Phuong trinh co 2 nghiem\n";
             nghiem = new double[2];
-            delta = sqrt(delta);
-            nghiem[0] = (-b + delta) / (2 * a);
-            nghiem[1] = (-b - delta) / (2 * a);
+            nghiem[0] = (-b + sqrt(delta)) / (2 * a);
+            nghiem[1] = (-b - sqrt(delta)) / (2 * a);
             break;
         }
     }
@@ -130,59 +129,87 @@ double * congDaThuc()
     unsigned int *size1 = new unsigned int;
     cout << "Nhap so bac cua da thuc 1: ";
     cin >> *size1;
-    cout << endl;
-
     double *daThuc1 = nhapDaThuc(size1);
 
     unsigned int *size2 = new unsigned int;
     cout << "Nhap so bac cua da thuc 2: ";
     cin >> *size2;
-    cout << endl;
-
     double *daThuc2 = nhapDaThuc(size2);
 
     double *daThucTong;
 
-    if (*size1 > *size2)
-    {
-        daThucTong = new double[*size1];
+    // Test bench: [3, 2, 1]; [2, 1]
+    // Test result should be: [3, 4, 2]
 
-        cout << "Da thuc tong la: ";
+    if (*size1 > *size2) {
+        daThucTong = new double[*size1+1];
+        for (unsigned int i = *size1; i >= *size2; i--) {
+            daThucTong[i] = daThuc1[i] + daThuc2[i-*size2];
+        }
 
-        for (int i = *size1; i >= 0; i--)
-        {
-            if (i < *size2)
-            {
-                daThucTong[i] = daThuc1[i] + daThuc2[i];
+        for (unsigned int i = 0; i < *size2; i++) {
+            daThucTong[i] = daThuc1[i];
+        }
+
+        cout << "Da thuc tong: ";
+        for (unsigned int i = 0; i <= *size1; i++) {
+            string dau = "";
+            if (daThucTong[i] > 0 && i != 0)
+                dau = "+";
+
+            if (*size1-i == 0) {
+                cout << dau << daThucTong[i] << " = 0\n";
             }
             else
-            {
-                daThucTong[i] = daThuc1[i];
-            }
-
-            cout << daThucTong[i] << " ";
+                cout << dau << daThucTong[i] << "x^" << *size1-i;
         }
-    }
-    else
-    {
-        daThucTong = new double[*size2];
 
-        cout << "Da thuc tong la: ";
+    } else if (*size2 > *size1) {
+        daThucTong = new double[*size2+1];
+        for (unsigned int i = *size2; i >= *size1; i--) {
+            daThucTong[i] = daThuc1[i] + daThuc2[i-*size1];
+        }
 
-        for (unsigned int i = 0; i <= *size2; i++)
-        {
-            if (i < *size1)
-            {
-                daThucTong[i] = daThuc1[i] + daThuc2[i];
+        for (unsigned int i = 0; i < *size1; i++) {
+            daThucTong[i] = daThuc2[i];
+        }
+        
+        cout << "Da thuc tong: ";
+        for (unsigned int i = 0; i <= *size2; i++) {
+            string dau = "";
+            if (daThucTong[i] > 0 && i != 0)
+                dau = "+";
+
+            if (*size2-i == 0) {
+                cout << dau << daThucTong[i] << " = 0\n";
             }
             else
-            {
-                daThucTong[i] = daThuc2[i];
-            }
-
-            cout << daThucTong[i] << " ";
+                cout << dau << daThucTong[i] << "x^" << *size2-i;
         }
+    } else {
+        daThucTong = new double[*size1+1];
+
+        for (unsigned int i = *size1; i >= 1; i--) {
+            daThucTong[i] = daThuc1[i] + daThuc2[i];
+        }
+
+        daThucTong[0] = daThuc1[0] + daThuc2[0];
+
+        cout << "Da thuc tong: ";
+        for (unsigned int i = 0; i <= *size1; i++) {
+            string dau = "";
+            if (daThucTong[i] > 0 && i != 0)
+                dau = "+";
+
+            if (*size1-i == 0) {
+                cout << dau << daThucTong[i] << " = 0\n";
+            }
+            else
+                cout << dau << daThucTong[i] << "x^" << *size1-i;
+        }
+
     }
+
 
     delete size1;
     delete size2;
@@ -304,10 +331,11 @@ int main()
         }
         case 3:
         {
-            congDaThuc();
+            double *daThucTong = congDaThuc();
+            delete daThucTong;
+            daThucTong = nullptr;
             break;
         }
-
         default:
             cout << "Hanh dong khong hop le. Xin hay chon lai.\n";
             break;
