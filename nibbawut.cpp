@@ -250,12 +250,6 @@ int main()
             cin >> *size;
             cout << endl;
 
-            if (*size > 4)
-            {
-                cout << "Phuong trinh co bac lon hon 4. Khong hop le.\n";
-                return 0;
-            }
-
             double *heso = nhapDaThuc(size);
 
             // Xuat da thuc
@@ -288,7 +282,7 @@ int main()
 
             if (*size > 4)
             {
-                cout << "Phuong trinh co bac lon hon 4. Khong hop le.\n";
+                cout << "Khong the giai phuong trinh co bac lon hon 4.\n";
                 return 0;
             }
 
