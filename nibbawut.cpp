@@ -2,9 +2,10 @@
 #include <cmath>
 #include <string>
 #define PI 3.14159
+
 using namespace std;
 
-double *giaiDaThuc(unsigned int *size, double heso[])
+double * giaiDaThuc(unsigned int *size, double heso[])
 {
     double *nghiem;
 
@@ -66,9 +67,8 @@ double *giaiDaThuc(unsigned int *size, double heso[])
         const double b = heso[1];
         const double c = heso[2];
         const double d = heso[3];
-
-        double delta = pow(b, 2.0) - 3.0 * a * c;
-        double k = (9.0 * a * b * c - 2.0 * pow(b, 3.0) - 27.0 * pow(a, 2.0) * d) / (2.0 * sqrt(fabs(pow(delta, 3.0))));
+        const double delta = pow(b, 2.0) - 3.0 * a * c;
+        const double k = (9.0 * a * b * c - 2.0 * pow(b, 3.0) - 27.0 * pow(a, 2.0) * d) / (2.0 * sqrt(fabs(pow(delta, 3.0))));
 
         if (delta > 0.0)
         {
@@ -112,7 +112,7 @@ double *giaiDaThuc(unsigned int *size, double heso[])
     return nghiem;
 }
 
-double *nhapDaThuc(unsigned int *bac)
+double * nhapDaThuc(unsigned int *bac)
 {
     double *heso = new double[*bac + 1];
 
@@ -125,7 +125,7 @@ double *nhapDaThuc(unsigned int *bac)
     return heso;
 }
 
-double *congDaThuc()
+double * congDaThuc()
 {
     unsigned int *size1 = new unsigned int;
     cout << "Nhap so bac cua da thuc 1: ";
@@ -141,9 +141,11 @@ double *congDaThuc()
 
     double *daThuc2 = nhapDaThuc(size2);
 
+    double *daThucTong;
+
     if (*size1 > *size2)
     {
-        double *daThucTong = new double[*size1];
+        daThucTong = new double[*size1];
 
         cout << "Da thuc tong la: ";
 
@@ -160,12 +162,10 @@ double *congDaThuc()
 
             cout << daThucTong[i] << " ";
         }
-
-        return daThucTong;
     }
     else
     {
-        double *daThucTong = new double[*size2];
+        daThucTong = new double[*size2];
 
         cout << "Da thuc tong la: ";
 
@@ -182,9 +182,18 @@ double *congDaThuc()
 
             cout << daThucTong[i] << " ";
         }
-
-        return daThucTong;
     }
+
+    delete size1;
+    delete size2;
+    delete daThuc1;
+    delete daThuc2;
+    size1 = nullptr;
+    size2 = nullptr;
+    daThuc1 = nullptr;
+    daThuc2 = nullptr;
+
+    return daThucTong;
 }
 
 int main()
@@ -227,15 +236,14 @@ int main()
             for (unsigned int i = 0; i <= *size; i++) {
                 string dau = "";
                 if (heso[i] > 0 && i != 0)
-                    dau = "+ ";
+                    dau = "+";
 
                 if (*size-i == 0) {
                     cout << dau << heso[i] << " = 0\n";
                 }
                 else
-                    cout << dau << heso[i] << "x^" << *size-i << " ";
+                    cout << dau << heso[i] << "x^" << *size-i;
             }
-            cout << endl;
 
             delete size;
             delete heso;
@@ -260,10 +268,18 @@ int main()
             double *heso = nhapDaThuc(size);
 
             // Xuat da thuc
-            cout << "Da thuc duoc nhap la: ";
-            for (unsigned int i = 0; i <= *size; i++)
-                cout << heso[i] << " ";
-            cout << endl;
+            cout << "Da thuc vua nhap: ";
+            for (unsigned int i = 0; i <= *size; i++) {
+                string dau = "";
+                if (heso[i] > 0 && i != 0)
+                    dau = "+";
+
+                if (*size-i == 0) {
+                    cout << dau << heso[i] << " = 0\n";
+                }
+                else
+                    cout << dau << heso[i] << "x^" << *size-i;
+            }
 
             const double *nghiem = giaiDaThuc(size, heso);
 
